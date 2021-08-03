@@ -19,7 +19,7 @@ public class CommonResponseBody<T> {
   public static class CommonResponseBodyBuilder<T> {
     private String result;
 
-    public CommonResponseBodyBuilder result(ApiResult result) {
+    public CommonResponseBodyBuilder<T> result(ApiResult result) {
       this.result = result.getResult();
       return this;
     }

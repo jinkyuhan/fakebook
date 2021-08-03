@@ -1,5 +1,6 @@
 package com.jkhan.fackebook.fakebookserver.e2e;
 
+import com.jkhan.fackebook.fakebookserver.TestUtils;
 import com.jkhan.fakebookserver.FakebookServerApplication;
 import com.jkhan.fakebookserver.common.CommonResponseBody;
 import com.jkhan.fakebookserver.dto.UserCreationDto;
@@ -21,11 +22,8 @@ public class UserSignupTests {
 
     @Test
     public void signupUserRequestTest() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
         ResponseEntity<CommonResponseBody> responseEntity = testRestTemplate.postForEntity(
-                "http://localhost:8080" + "/api/users",
+                TestUtils.buildUrl("/api/users"),
                 UserCreationDto.builder()
                         .nickname("jkhan")
                         .name("jinkyuhan")
