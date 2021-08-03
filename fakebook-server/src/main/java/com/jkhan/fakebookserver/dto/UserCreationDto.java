@@ -1,6 +1,10 @@
 package com.jkhan.fakebookserver.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -8,9 +12,9 @@ import lombok.*;
 @Getter
 @Setter
 public class UserCreationDto {
-    private String nickname;
-    private String name;
-    private String password;
-    private String email;
-    private int age;
+  private String nickname;
+  private String name;
+  private String password;
+  private String email;
+  private int age;
 }

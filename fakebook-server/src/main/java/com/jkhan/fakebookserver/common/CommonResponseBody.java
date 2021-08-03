@@ -1,22 +1,27 @@
 package com.jkhan.fakebookserver.common;
 
 import com.jkhan.fakebookserver.constant.ApiResult;
-import lombok.*;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Builder
-@Data
+@Setter
+@Getter
 public class CommonResponseBody<T> {
 
-    private String result;
-    @Builder.Default
-    private String devMsg = "";
-    private T data;
+  private String result;
+  @Builder.Default
+  private String devMsg = "";
+  private T data;
 
-    public static class CommonResponseBodyBuilder {
-        private String result;
-        public CommonResponseBodyBuilder result(ApiResult result) {
-            this.result = result.getResult();
-            return this;
-        }
+  public static class CommonResponseBodyBuilder<T> {
+    private String result;
+
+    public CommonResponseBodyBuilder result(ApiResult result) {
+      this.result = result.getResult();
+      return this;
     }
+  }
 }
