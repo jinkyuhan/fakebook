@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:focal
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: demo
+      MARIADB_DATABASE: fakebook
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: admin
+    volumes:
+      - fakebook_data:/var/lib/mysql
+
+volumes:
+  fakebook_data:
