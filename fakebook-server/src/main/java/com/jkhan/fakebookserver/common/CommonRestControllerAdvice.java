@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CommonRestControllerAdvice {
 
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(DuplicationException.class)
     public ResponseEntity<CommonResponseBody> handleDuplicationException(DuplicationException exception) {
         // TODO: 로깅 전략 구성
@@ -26,12 +27,11 @@ public class CommonRestControllerAdvice {
         );
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class, RuntimeException.class, DatabaseProcessFailException.class})
-    public ResponseEntity<CommonResponseBody> handleUnknownException(Exception e) {
+    public CommonResponseBody handleUnknownException(Exception e) {
         // TODO: 로깅 전략 구성
         System.out.println(e.getMessage());
-        return new ResponseEntity(
-                HttpStatus.INTERNAL_SERVER_ERROR
-        );
+        return HttpStatus.INTERNAL_SERVER_ERROR
     }
 }
