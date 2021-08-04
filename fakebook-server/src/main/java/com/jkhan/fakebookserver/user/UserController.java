@@ -2,7 +2,6 @@ package com.jkhan.fakebookserver.user;
 
 import com.jkhan.fakebookserver.common.CommonResponseBody;
 import com.jkhan.fakebookserver.constant.ApiResult;
-import com.jkhan.fakebookserver.dto.UserCreationDto;
 import com.jkhan.fakebookserver.common.exception.DuplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

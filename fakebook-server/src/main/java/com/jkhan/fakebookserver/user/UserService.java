@@ -1,15 +1,14 @@
 package com.jkhan.fakebookserver.user;
 
-import com.jkhan.fakebookserver.common.exception.DatabaseProcessFailException;
-import com.jkhan.fakebookserver.dto.UserCreationDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Supplier;
+
+import com.jkhan.fakebookserver.common.exception.DatabaseProcessFailException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {

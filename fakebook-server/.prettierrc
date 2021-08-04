@@ -1,0 +1,6 @@
+{
+  "[java]": {
+    "tabWidth": 4,
+    "useTabs": false
+  }
+}

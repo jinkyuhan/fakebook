@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Setter
 public class AuthConfig {
     private String jwtSecret;
-    private int jwtExpireMinutes;
-    private String passwordEncodingSecret; 
+    private int accessExpireMinutes;
+    private int refreshExpireDays;
+    private String passwordEncodingSecret;
 }

@@ -1,10 +1,8 @@
 package com.jkhan.fakebookserver.common;
 
 import com.jkhan.fakebookserver.common.exception.DatabaseProcessFailException;
-import com.jkhan.fakebookserver.common.exception.DuplicationException;
-import com.jkhan.fakebookserver.common.exception.InvalidInputException;
 import com.jkhan.fakebookserver.common.exception.RequestFailException;
-import com.jkhan.fakebookserver.constant.ApiResult;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,7 +19,6 @@ public class CommonRestControllerAdvice {
         System.out.println(exception.getMessage());
         return exception.toCommonResponseBody();
     }
-
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class, RuntimeException.class, DatabaseProcessFailException.class})

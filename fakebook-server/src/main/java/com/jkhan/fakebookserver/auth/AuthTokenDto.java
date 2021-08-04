@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AuthTokenDto {
-    private String token;
+    private String encodedJwt;
     private long expiredAt;
 }

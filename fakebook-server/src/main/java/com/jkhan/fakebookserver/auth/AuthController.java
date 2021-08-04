@@ -1,50 +1,54 @@
 package com.jkhan.fakebookserver.auth;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.jkhan.fakebookserver.common.CommonResponseBody;
 import com.jkhan.fakebookserver.common.exception.InvalidInputException;
 import com.jkhan.fakebookserver.constant.ApiResult;
-import com.jkhan.fakebookserver.dto.SignInDto;
 import com.jkhan.fakebookserver.user.UserAccount;
 import com.jkhan.fakebookserver.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @Autowired
-    private AuthService tokenManager;
+  @Autowired
+  private AuthService authService;
 
-    @PostMapping("/login")
-    public CommonResponseBody<Map<String, AuthTokenDto>> login(@RequestBody SignInDto signInInput) {
-        UserAccount loginAttemptUserAccount = userService.getUserByEmail(signInInput.getEmail()).orElseThrow(
-                () -> new InvalidInputException("User with this mail not found", "입력한 이메일로 가입된 계정이 없습니다.")
-        );
-//        tokenManager.createToken(login());
+  @PostMapping("/login")
+  public CommonResponseBody<AuthTokenBundleDto> login(@RequestBody SignInDto signInInput) {
+    UserAccount loginAttemptUserAccount = userService.getUserByEmail(signInInput.getEmail())
+        .orElseThrow(() -> new InvalidInputException("User with this mail not found", "입력한 이메일로 가입된 계정이 없습니다."));
 
-
-        return CommonResponseBody.<Map<String, AuthTokenDto>>builder()
-                .result(ApiResult.SUCCESS)
-                .build();
+    if (!loginAttemptUserAccount.validatePassword(signInInput.getPassword())) {
+      throw new InvalidInputException("Password is not matched", "비밀번호가 일치하지 않습니다.");
     }
 
-    // logout
+    return CommonResponseBody.<AuthTokenBundleDto>builder()
+            .result(ApiResult.SUCCESS)
+            .data(authService.issueNewLoginSession(loginAttemptUserAccount))
+            .build();
+  }
 
-    // refresh
-    @PostMapping("/refresh")
-    public CommonResponseBody<Map<String, AuthTokenDto>> refreshAuth(HttpServletRequest request) {
+  // logout
 
-        return CommonResponseBody.<Map<String, AuthTokenDto>>builder()
-                .result(ApiResult.SUCCESS)
-                .build();
-    }
-//    public
+  // refresh
+  @PostMapping("/refresh")
+  public CommonResponseBody<Map<String, AuthTokenDto>> refreshAuth(HttpServletRequest request) {
+
+    return CommonResponseBody.<Map<String, AuthTokenDto>>builder().result(ApiResult.SUCCESS).build();
+  }
+  // public
 
 }
