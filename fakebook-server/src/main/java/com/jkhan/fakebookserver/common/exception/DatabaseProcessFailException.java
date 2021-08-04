@@ -1,4 +1,6 @@
 package com.jkhan.fakebookserver.common.exception;
 
-public class DatabaseProcessFailException extends RequestFailException {
+import com.jkhan.fakebookserver.common.CommonResponseBody;
+
+public class DatabaseProcessFailException extends RuntimeException {
 }

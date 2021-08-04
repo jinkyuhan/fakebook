@@ -14,6 +14,7 @@ public class CommonResponseBody<T> {
   private String result;
   @Builder.Default
   private String devMessage = "";
+  @Builder.Default
   private String displayMessage = "";
   private T data;
 

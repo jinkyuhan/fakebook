@@ -7,10 +7,11 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-@ConfigurationProperties(prefix="service.jwt")
+@ConfigurationProperties(prefix="service.auth")
 @Getter
 @Setter
-public class JwtConfig {
-    private String secret;
-    private int expireMinutes;
+public class AuthConfig {
+    private String jwtSecret;
+    private int jwtExpireMinutes;
+    private String passwordEncodingSecret; 
 }

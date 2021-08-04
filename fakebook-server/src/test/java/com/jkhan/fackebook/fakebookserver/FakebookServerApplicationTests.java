@@ -1,7 +1,7 @@
 package com.jkhan.fackebook.fakebookserver;
 
 import com.jkhan.fakebookserver.FakebookServerApplication;
-import com.jkhan.fakebookserver.config.JwtConfig;
+import com.jkhan.fakebookserver.config.AuthConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +13,7 @@ public class FakebookServerApplicationTests {
 
 
     @Autowired
-    private JwtConfig jwtConfig;
+    private AuthConfig jwtConfig;
 
     @Test
     void contextLoads() {

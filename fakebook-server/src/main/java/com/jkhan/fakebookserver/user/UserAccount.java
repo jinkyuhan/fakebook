@@ -35,4 +35,8 @@ public class UserAccount {
 
   @Column
   private int age;
+
+  public boolean validatePassword(String password) {
+    return this.password == password;
+  }
 }

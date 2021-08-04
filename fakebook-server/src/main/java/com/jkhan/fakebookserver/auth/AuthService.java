@@ -1,39 +1,37 @@
 package com.jkhan.fakebookserver.auth;
 
-import com.jkhan.fakebookserver.config.JwtConfig;
+import java.time.Duration;
+import java.util.Date;
+
+import com.jkhan.fakebookserver.config.AuthConfig;
 import com.jkhan.fakebookserver.user.UserAccount;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.time.Duration;
-import java.util.Date;
 
 @Component
 public class AuthService {
     @Autowired
-    private JwtConfig jwtConfig;
-
+    private AuthConfig jwtConfig;
 
     public AuthTokenDto createToken(UserAccount user) {
         Date now = new Date();
-        Date expiredAt = new Date(now.getTime() + Duration.ofMinutes(jwtConfig.getExpireMinutes()).toMillis());
+        Date expiredAt = new Date(now.getTime() + Duration.ofMinutes(jwtConfig.getJwtExpireMinutes()).toMillis());
         return new AuthTokenDto(
                 Jwts.builder()
                         .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                         .setIssuedAt(now)
                         .setExpiration(expiredAt)
-                        .claim("userId", user.getId())
-                        .claim("email", user.getEmail())
+                        .claim("userId", user.getId()).claim("email", user.getEmail())
                         .claim("nickname", user.getNickname())
-                        .claim("name", user.getName())
-                        .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecret())
+                        .claim("name", user.getName()).signWith(SignatureAlgorithm.HS256, jwtConfig.getJwtSecret())
                         .compact(),
-                expiredAt.getTime()
-        );
+                expiredAt.getTime());
     }
 
     public Claims parseToken(String authorizationHeader) {
@@ -42,9 +40,8 @@ public class AuthService {
             parsingTargetToken = authorizationHeader.substring("Bearer ".length());
         }
         return Jwts.parser()
-                .setSigningKey(jwtConfig.getSecret())
+                .setSigningKey(jwtConfig.getJwtSecret())
                 .parseClaimsJws(parsingTargetToken)
                 .getBody();
-
     }
 }

@@ -46,7 +46,7 @@ public class UserService {
                     .build()
             );
         } catch (Exception e) {
-            throw new DatabaseProcessFailException(e.getMessage());
+            throw new DatabaseProcessFailException();
         }
     }
 }

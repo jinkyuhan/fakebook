@@ -37,7 +37,7 @@ public class UserController {
     public CommonResponseBody<Void> signUp(@RequestBody UserCreationDto body) {
         userService.getUserByNicknameOrEmail(body.getNickname(), body.getEmail())
                 .ifPresent((u) -> {
-                    throw new DuplicationException();
+                    throw new DuplicationException("Duplication value for signup", "");
                 });
 
         userService.createNewUserAccount(body);

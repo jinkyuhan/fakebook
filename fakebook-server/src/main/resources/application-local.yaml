@@ -17,8 +17,9 @@ spring:
       ddl-auto: update
 
 service:
-  jwt:
-    secret: jwtsecretkey
-    expire-minutes: 15
+  auth:
+    jwt-secret: jwtsecretkey
+    jwt-expire-minutes: 15
+    password-encoding-secret: passwordsecretkey
 
 

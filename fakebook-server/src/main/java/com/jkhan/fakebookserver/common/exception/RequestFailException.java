@@ -1,26 +1,19 @@
 package com.jkhan.fakebookserver.common.exception;
 
+import com.jkhan.fakebookserver.common.CommonResponseBody;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public class RequestFailException extends RuntimeException {
-    protected String devMessage = "";
-    protected String displayMessage = "";
-
+public abstract class RequestFailException extends RuntimeException {
+    private String devMessage;
+    private String displayMessage;
 
     public RequestFailException(String devMessage, String displayMessage) {
-        super();
         this.devMessage = devMessage;
         this.displayMessage = displayMessage;
-    }
+    };
 
-    public RequestFailException(String devMessage) {
-        super();
-        this.devMessage = devMessage;
-        this.displayMessage = "";
-    }
-
-    public RequestFailException() {
-        super();
-    }
+    abstract public CommonResponseBody<Void> toCommonResponseBody();
 }
