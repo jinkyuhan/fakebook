@@ -13,12 +13,12 @@ public class CommonResponseBody<T> {
 
   private String result;
   @Builder.Default
-  private String devMsg = "";
+  private String devMessage = "";
+  private String displayMessage = "";
   private T data;
 
   public static class CommonResponseBodyBuilder<T> {
     private String result;
-
     public CommonResponseBodyBuilder<T> result(ApiResult result) {
       this.result = result.getResult();
       return this;

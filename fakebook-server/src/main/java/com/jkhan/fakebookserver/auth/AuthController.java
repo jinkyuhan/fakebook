@@ -1,6 +1,7 @@
 package com.jkhan.fakebookserver.auth;
 
 import com.jkhan.fakebookserver.common.CommonResponseBody;
+import com.jkhan.fakebookserver.common.exception.InvalidInputException;
 import com.jkhan.fakebookserver.constant.ApiResult;
 import com.jkhan.fakebookserver.dto.SignInDto;
 import com.jkhan.fakebookserver.user.UserService;
@@ -23,8 +24,9 @@ public class AuthController {
     public CommonResponseBody<Map<String, AuthTokenDto>> login(@RequestBody SignInDto signInInput) {
         userService.getUserByEmail(signInInput.getEmail())
                 .ifPresentOrElse(
-                        () -> {},
-                        () -> { throw new Exception}
+                        () -> {
+                        },
+                        () -> { throw new InvalidInputException(""); }
                 );
 
         tokenManager.createToken();

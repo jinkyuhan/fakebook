@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum ApiResult {
     SUCCESS("SUCCESS"),
-    FAIL("FAIL");
+    INVALID_INPUT("INVALID_INPUT"),
+    RESOURCE_DUPLICATE("RESOURCE_DUPLICATE");
 
     @Getter
     private String result;
