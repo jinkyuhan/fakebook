@@ -4,6 +4,7 @@ import com.jkhan.fakebookserver.common.CommonResponseBody;
 import com.jkhan.fakebookserver.constant.ApiResult;
 import com.jkhan.fakebookserver.common.exception.DuplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -45,5 +46,9 @@ public class UserController {
                 .build();
     }
 
-
+//    @GetMapping()
+//    public CommonResponseBody<Void> myInfo(Authentication authentication) {
+//        authentication.getPrincipal()
+//
+//    }
 }

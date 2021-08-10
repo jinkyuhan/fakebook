@@ -1,5 +1,7 @@
 package com.jkhan.fakebookserver.user;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -40,4 +42,13 @@ public class UserAccount {
 //    return this.password == password;
     return true;
   }
+
+  public Map<String, Object> getJwtClaims() {
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("userId", this.id);
+    claims.put("name", this.name);
+    claims.put("email", this.email);
+    return claims;
+  }
+
 }

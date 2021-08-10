@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class AuthService {
+public class JwtProvider {
 
     @Autowired
     private AuthConfig authConfig;
@@ -40,22 +40,13 @@ public class AuthService {
     private AuthTokenDto generateAccessToken(UserAccount user) {
         return createToken(
                 Duration.ofMinutes(authConfig.getAccessExpireMinutes()).toMillis(),
-                extractClaimsFromUserAccount(user));
+                user.getJwtClaims());
     }
 
     private AuthTokenDto generateRefreshToken(UserAccount user, LoginSession loginSession) {
-        Map<String, Object> payload = extractClaimsFromUserAccount(user);
+        Map<String, Object> payload = user.getJwtClaims();
         payload.put("loginSessionId", loginSession.getId());
         return createToken(Duration.ofDays(authConfig.getRefreshExpireDays()).toMillis(), payload);
-    }
-
-
-    private Map<String, Object> extractClaimsFromUserAccount(UserAccount user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", user.getId());
-        claims.put("name", user.getName());
-        claims.put("email", user.getEmail());
-        return claims;
     }
 
     private AuthTokenDto createToken(long remainingExpirationMillis, Map<String, Object> payload) {
@@ -74,9 +65,10 @@ public class AuthService {
 
     public Claims parseAuthHeader(String authorizationHeader) {
         String parsingTargetToken = "" + authorizationHeader;
-        if (authorizationHeader.startsWith("Bearer ")) {
+        if (parsingTargetToken.startsWith("Bearer ")) {
             parsingTargetToken = authorizationHeader.substring("Bearer ".length());
         }
+
         return Jwts.parser()
                 .setSigningKey(authConfig.getJwtSecret())
                 .parseClaimsJws(parsingTargetToken)

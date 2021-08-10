@@ -11,6 +11,7 @@ import com.jkhan.fakebookserver.user.UserAccount;
 import com.jkhan.fakebookserver.user.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,20 +25,21 @@ public class AuthController {
   private UserService userService;
 
   @Autowired
-  private AuthService authService;
+  private JwtProvider jwtProvider;
 
   @PostMapping("/login")
-  public CommonResponseBody<AuthTokenBundleDto> login(@RequestBody LoginDto loginInput) {
+  public CommonResponseBody<AuthTokenBundleDto> login(@RequestBody LoginDto loginInput, Authentication auth) {
     UserAccount loginAttemptUserAccount = userService.getUserByEmail(loginInput.getEmail())
         .orElseThrow(() -> new InvalidInputException("User with this mail not found", "입력한 이메일로 가입된 계정이 없습니다."));
 
     if (!loginAttemptUserAccount.validatePassword(loginInput.getPassword())) {
       throw new InvalidInputException("Password is not matched", "비밀번호가 일치하지 않습니다.");
     }
+    System.out.println(auth == null);
 
     return CommonResponseBody.<AuthTokenBundleDto>builder()
             .result(ApiResult.SUCCESS)
-            .data(authService.issueNewLoginSession(loginAttemptUserAccount))
+            .data(jwtProvider.issueNewLoginSession(loginAttemptUserAccount))
             .build();
   }
 
@@ -46,7 +48,6 @@ public class AuthController {
   // refresh
   @PostMapping("/refresh")
   public CommonResponseBody<Map<String, AuthTokenDto>> refreshAuth(HttpServletRequest request) {
-
     return CommonResponseBody.<Map<String, AuthTokenDto>>builder().result(ApiResult.SUCCESS).build();
   }
   // public
