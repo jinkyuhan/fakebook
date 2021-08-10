@@ -17,6 +17,15 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    // 예상: Security Config 에 addFilterBefore 안해주면 이 필터를 통과하지 않음)
+    // 현재: Security Config 와 상관없이 OncePerRequestFilter 만 extends 하는 것만으로 filter가 작동함)
+    // 뭐가 문제일까...
+    // 또한
+    // Security Config 에서 filter 가 걸리는 예외 경로를 정해줘야함 (이 클래스 안에서 string match 하는 방법도 있겠지만 지양)
+    // Jwt 를 도입한 이상 Spring security 의 UsernameAndPasswordAuthenticationFilter 가 더 이상 필요 없는데 끄는 방법 모르겟음
+    // Security Config 에서 entryPoint 로 하는 exception handling 과 아래에서 한 exception handling 의 차이
+    
+
     @Autowired
     JwtProvider jwtProvider;
 
