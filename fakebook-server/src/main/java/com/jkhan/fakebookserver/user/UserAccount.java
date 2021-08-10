@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserAccount {
   @Id
-  @Column
+  @Column(columnDefinition = "BINARY(16)")
   @Builder.Default
   private UUID id = UUID.randomUUID();
 

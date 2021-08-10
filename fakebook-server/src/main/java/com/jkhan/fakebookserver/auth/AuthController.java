@@ -27,11 +27,11 @@ public class AuthController {
   private AuthService authService;
 
   @PostMapping("/login")
-  public CommonResponseBody<AuthTokenBundleDto> login(@RequestBody SignInDto signInInput) {
-    UserAccount loginAttemptUserAccount = userService.getUserByEmail(signInInput.getEmail())
+  public CommonResponseBody<AuthTokenBundleDto> login(@RequestBody LoginDto loginInput) {
+    UserAccount loginAttemptUserAccount = userService.getUserByEmail(loginInput.getEmail())
         .orElseThrow(() -> new InvalidInputException("User with this mail not found", "입력한 이메일로 가입된 계정이 없습니다."));
 
-    if (!loginAttemptUserAccount.validatePassword(signInInput.getPassword())) {
+    if (!loginAttemptUserAccount.validatePassword(loginInput.getPassword())) {
       throw new InvalidInputException("Password is not matched", "비밀번호가 일치하지 않습니다.");
     }
 

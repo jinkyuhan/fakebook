@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 
 @SpringBootTest(classes = FakebookServerApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class UserSignupTests {
+public class UserControllerTests {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -24,10 +24,10 @@ public class UserSignupTests {
         ResponseEntity<CommonResponseBody> responseEntity = testRestTemplate.postForEntity(
                 TestUtils.buildUrl("/api/users"),
                 UserCreationDto.builder()
-                        .nickname("jkhan")
-                        .name("jinkyuhan")
+                        .nickname("jkhan3")
+                        .name("jinkyuhan3")
                         .age(27)
-                        .email("gkswlsrb95@gmail.com")
+                        .email("gkswlsrb97@gmail.com")
                         .password("1234")
                         .build(),
                 CommonResponseBody.class

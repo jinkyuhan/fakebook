@@ -8,10 +8,10 @@ import java.util.Map;
 import com.jkhan.fakebookserver.config.AuthConfig;
 import com.jkhan.fakebookserver.user.UserAccount;
 
-import com.jkhan.fakebookserver.user.UserLoginSession;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class AuthService {
@@ -19,12 +19,21 @@ public class AuthService {
     @Autowired
     private AuthConfig authConfig;
 
+    @Autowired
+    private LoginSessionRepository loginSessionRepository;
+
+    @Transactional
     public AuthTokenBundleDto issueNewLoginSession(UserAccount user) {
         AuthTokenBundleDto newTokenBundle = new AuthTokenBundleDto();
-        UserLoginSession newLoginSession = new UserLoginSession(user);
         newTokenBundle.setAccessToken(generateAccessToken(user));
-        newTokenBundle.setRefreshToken(generateRefreshToken(user, newLoginSession));
-        // TODO: save newLoginSession into DB with Transaction ( Consider to save into redis as sessions store )
+
+        LoginSession newLoginSession = new LoginSession(user);
+        AuthTokenDto newRefreshToken = generateRefreshToken(user, newLoginSession);
+        newTokenBundle.setRefreshToken(newRefreshToken);
+
+        newLoginSession.setExpiredAt(newRefreshToken.getExpiredAt());
+        loginSessionRepository.save(newLoginSession);
+
         return newTokenBundle;
     }
 
@@ -34,7 +43,7 @@ public class AuthService {
                 extractClaimsFromUserAccount(user));
     }
 
-    private AuthTokenDto generateRefreshToken(UserAccount user, UserLoginSession loginSession) {
+    private AuthTokenDto generateRefreshToken(UserAccount user, LoginSession loginSession) {
         Map<String, Object> payload = extractClaimsFromUserAccount(user);
         payload.put("loginSessionId", loginSession.getId());
         return createToken(Duration.ofDays(authConfig.getRefreshExpireDays()).toMillis(), payload);
