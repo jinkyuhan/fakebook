@@ -11,6 +11,7 @@ import com.jkhan.fakebookserver.user.UserAccount;
 import com.jkhan.fakebookserver.user.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,18 +29,20 @@ public class AuthController {
   private JwtProvider jwtProvider;
 
   @PostMapping("/login")
-  public CommonResponseBody<AuthTokenBundleDto> login(@RequestBody LoginDto loginInput, Authentication auth) {
+  public CommonResponseBody<AuthTokenBundleDto> login(@RequestBody LoginDto loginInput) {
     UserAccount loginAttemptUserAccount = userService.getUserByEmail(loginInput.getEmail())
         .orElseThrow(() -> new InvalidInputException("User with this mail not found", "입력한 이메일로 가입된 계정이 없습니다."));
 
     if (!loginAttemptUserAccount.validatePassword(loginInput.getPassword())) {
       throw new InvalidInputException("Password is not matched", "비밀번호가 일치하지 않습니다.");
     }
-    System.out.println(auth == null);
+
+    AuthTokenBundleDto newAccessTokenBundle = jwtProvider.issueNewLoginSession(loginAttemptUserAccount);
+
 
     return CommonResponseBody.<AuthTokenBundleDto>builder()
             .result(ApiResult.SUCCESS)
-            .data(jwtProvider.issueNewLoginSession(loginAttemptUserAccount))
+            .data(newAccessTokenBundle)
             .build();
   }
 

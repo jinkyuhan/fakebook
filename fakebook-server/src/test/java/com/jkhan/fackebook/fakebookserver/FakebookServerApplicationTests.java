@@ -36,9 +36,4 @@ public class FakebookServerApplicationTests {
         System.out.println("");
     }
 
-    @Test
-    void getUser() {
-        System.out.println("");
-    }
-
 }

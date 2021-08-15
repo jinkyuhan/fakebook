@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "user_account")
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class UserAccount {
+public class UserAccount{
   @Id
   @Column(columnDefinition = "BINARY(16)")
   @Builder.Default

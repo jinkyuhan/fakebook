@@ -46,9 +46,12 @@ public class UserController {
                 .build();
     }
 
-//    @GetMapping()
-//    public CommonResponseBody<Void> myInfo(Authentication authentication) {
-//        authentication.getPrincipal()
-//
-//    }
+    @GetMapping("/me")
+    public CommonResponseBody<Void> myInfo(Authentication authentication) {
+        UserAccount user = (UserAccount) authentication.getPrincipal();
+        System.out.println(user.getEmail());
+        return CommonResponseBody.<Void>builder()
+                .result(ApiResult.SUCCESS)
+                .build();
+    }
 }
