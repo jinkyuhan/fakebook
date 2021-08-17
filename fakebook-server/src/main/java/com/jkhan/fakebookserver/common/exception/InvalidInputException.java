@@ -1,6 +1,5 @@
 package com.jkhan.fakebookserver.common.exception;
 
-import com.jkhan.fakebookserver.common.CommonResponseBody;
 import com.jkhan.fakebookserver.constant.ApiResult;
 
 public class InvalidInputException extends RequestFailException {
@@ -9,11 +8,7 @@ public class InvalidInputException extends RequestFailException {
     }
 
     @Override
-    public CommonResponseBody<Void> toCommonResponseBody() {
-        return CommonResponseBody.<Void>builder()
-                .result(ApiResult.INVALID_INPUT)
-                .devMessage(this.getDevMessage())
-                .displayMessage(this.getDisplayMessage())
-                .build();
+    public ApiResult getApiResult() {
+        return ApiResult.INVALID_INPUT;
     }
 }

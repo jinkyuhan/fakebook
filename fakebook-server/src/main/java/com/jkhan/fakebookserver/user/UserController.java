@@ -1,6 +1,7 @@
 package com.jkhan.fakebookserver.user;
 
 import com.jkhan.fakebookserver.common.CommonResponseBody;
+import com.jkhan.fakebookserver.common.exception.ResourceNotFoundException;
 import com.jkhan.fakebookserver.constant.ApiResult;
 import com.jkhan.fakebookserver.common.exception.DuplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +48,15 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public CommonResponseBody<Void> myInfo(Authentication authentication) {
-        UserAccount user = (UserAccount) authentication.getPrincipal();
-        System.out.println(user.getEmail());
-        return CommonResponseBody.<Void>builder()
+    public CommonResponseBody<UserAccount> myInfo(Authentication authentication) {
+        String userId = String.valueOf(authentication.getPrincipal());
+        UserAccount me = userService.getUserById(userId).orElseThrow(() -> {
+            throw new ResourceNotFoundException("요청정보와 일치하는 유저 없음", "정보를 찾을 수 없습니다.");
+        });
+
+        return CommonResponseBody.<UserAccount>builder()
                 .result(ApiResult.SUCCESS)
+                .data(me)
                 .build();
     }
 }

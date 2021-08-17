@@ -53,6 +53,5 @@ public class AuthController {
   public CommonResponseBody<Map<String, AuthTokenDto>> refreshAuth(HttpServletRequest request) {
     return CommonResponseBody.<Map<String, AuthTokenDto>>builder().result(ApiResult.SUCCESS).build();
   }
-  // public
 
 }

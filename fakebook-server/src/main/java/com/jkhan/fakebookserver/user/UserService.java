@@ -3,9 +3,8 @@ package com.jkhan.fakebookserver.user;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Supplier;
-
-import com.jkhan.fakebookserver.common.exception.DatabaseProcessFailException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,13 @@ public class UserService {
 
     public Map<String, Boolean> checkIfUserAccountAlreadyExists(Supplier<Optional<UserAccount>> userAccountSupplier) {
         Map<String, Boolean> checkResult = new HashMap<>();
-        checkResult.put("isDuplicated",  userAccountSupplier.get().isPresent());
+        checkResult.put("isDuplicated", userAccountSupplier.get().isPresent());
         return checkResult;
+    }
+
+
+    public Optional<UserAccount> getUserById(String id) {
+        return userRepository.findById(UUID.fromString(id));
     }
 
     public Optional<UserAccount> getUserByEmail(String email) {
@@ -35,17 +39,13 @@ public class UserService {
     }
 
     public void createNewUserAccount(UserCreationDto newUserInfo) {
-        try {
-            userRepository.save(UserAccount.builder()
-                    .nickname(newUserInfo.getNickname())
-                    .name(newUserInfo.getName())
-                    .password(newUserInfo.getPassword())
-                    .email(newUserInfo.getEmail())
-                    .age(newUserInfo.getAge())
-                    .build()
-            );
-        } catch (Exception e) {
-            throw new DatabaseProcessFailException();
-        }
+        userRepository.save(UserAccount.builder()
+                .nickname(newUserInfo.getNickname())
+                .name(newUserInfo.getName())
+                .password(newUserInfo.getPassword())
+                .email(newUserInfo.getEmail())
+                .age(newUserInfo.getAge())
+                .build()
+        );
     }
 }

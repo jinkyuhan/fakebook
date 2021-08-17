@@ -9,16 +9,12 @@ import com.jkhan.fakebookserver.user.UserAccount;
 import com.jkhan.fakebookserver.user.UserAccountRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtProvider {
@@ -28,9 +24,6 @@ public class JwtProvider {
 
     @Autowired
     private LoginSessionRepository loginSessionRepository;
-
-    @Autowired
-    private UserAccountRepository userAccountRepository;
 
     @Transactional
     public AuthTokenBundleDto issueNewLoginSession(UserAccount user) {
@@ -73,29 +66,42 @@ public class JwtProvider {
                 expiredAt.getTime());
     }
 
-    public Authentication authenticate(HttpServletRequest request) {
-        Claims payload = parseAuthHeader(request.getHeader("Authorization"));
-        String userId = (String) payload.get("userId");
-        String maskedPassword = "";
-        // TODO: Authority 내용 정해지고 구현 이후에 DB 바탕으로 정해지도록 수정
-        Collection<SimpleGrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-        UserDetails principal = new User(userId, "", roles);
-//        UserAccount principal = userAccountRepository.findById(UUID.fromString(userId))
-//                .orElseThrow(() -> new RuntimeException("Invalid token payload")) ;
-        return new UsernamePasswordAuthenticationToken(principal,"");
+    public Authentication authenticate(JwtAuthenticationToken authentication) throws AuthenticationException {
+        try {
+            Claims payload = validateJwtToken(authentication.getCredentials());
+            // TODO: Authority 내용 정해지고 수정, JWT까서 나오는 권한 JwtAuthenticationToken 에 포함 시키기.
+            // Collection<SimpleGrantedAuthority> roles = new ArrayList<>();
+            // roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+            Object userId = payload.get("userId");
+            if (userId == null) {
+                throw new MalformedJwtException("Payload include invalid claims");
+            }
+            JwtAuthenticationToken result = new JwtAuthenticationToken(
+                    authentication.getCredentials(),
+                    String.valueOf(userId)
+            );
+
+            Object loginSessionId = payload.get("loginSessionId");
+            if (loginSessionId != null) {
+                result.setDetails(String.valueOf(loginSessionId));
+            }
+            return result;
+        } catch(JwtException e) {
+            throw new BadCredentialsException(e.getMessage());
+        }
     }
 
-    private Claims parseAuthHeader(String authorizationHeader) {
-        String parsingTargetToken = "" + authorizationHeader;
-        if (parsingTargetToken.startsWith("Bearer ")) {
-            parsingTargetToken = authorizationHeader.substring("Bearer ".length());
+
+    private Claims validateJwtToken(String bearerToken) throws JwtException {
+        String tokenToValidate = "" + bearerToken;
+        if (!tokenToValidate.startsWith("Bearer ")) {
+            throw new MalformedJwtException("Bearer token not exists authorization header");
         }
+        tokenToValidate = tokenToValidate.substring("Bearer ".length());
         return Jwts.parser()
                 .setSigningKey(authConfig.getJwtSecret())
-                .parseClaimsJws(parsingTargetToken)
+                .parseClaimsJws(tokenToValidate)
                 .getBody();
     }
-
 
 }

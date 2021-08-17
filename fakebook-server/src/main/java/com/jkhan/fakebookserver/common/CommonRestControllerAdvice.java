@@ -1,6 +1,5 @@
 package com.jkhan.fakebookserver.common;
 
-import com.jkhan.fakebookserver.common.exception.DatabaseProcessFailException;
 import com.jkhan.fakebookserver.common.exception.RequestFailException;
 
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CommonRestControllerAdvice {
 
+    // 일단 정상 응답 성공 시 Http status 는 모두 200으로, API 수행 성공여부는 responseBody 에서 다루는 형태.
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(RequestFailException.class)
     public CommonResponseBody<Void> handleRequestFailException(RequestFailException exception) {
@@ -21,8 +21,8 @@ public class CommonRestControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler({Exception.class, RuntimeException.class, DatabaseProcessFailException.class})
-    public CommonResponseBody<Void> handleExceptionByServer(Exception exception) {
+    @ExceptionHandler({Exception.class, RuntimeException.class})
+    public CommonResponseBody<Void> handleUnexpectedException(Exception exception) {
         // TODO: 로깅 전략 구성
         System.out.println(exception.getMessage());
         return CommonResponseBody.<Void>builder()
