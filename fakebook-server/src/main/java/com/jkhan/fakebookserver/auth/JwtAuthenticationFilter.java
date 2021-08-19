@@ -33,11 +33,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticationResult);
             filterChain.doFilter(request, response);
         } catch(AuthenticationException e) {
-            // if jwt token is invalid, do the remaining FilterChain without Authentication.
+            // if jwt token is invalid, do the remaining FilterChain without Authentication
             // TODO: 로깅 전략 구성
+            System.err.println(e.getMessage());
             SecurityContextHolder.clearContext();
             response.sendError(HttpStatus.UNAUTHORIZED.value());
-            System.out.println(e.getMessage());
         }
     }
 

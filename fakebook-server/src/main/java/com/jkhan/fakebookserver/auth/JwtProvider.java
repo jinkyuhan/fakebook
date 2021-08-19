@@ -6,10 +6,8 @@ import java.util.*;
 import com.jkhan.fakebookserver.config.AuthConfig;
 import com.jkhan.fakebookserver.user.UserAccount;
 
-import com.jkhan.fakebookserver.user.UserAccountRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -60,7 +58,7 @@ public class JwtProvider {
                         .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                         .setIssuedAt(now)
                         .setExpiration(expiredAt)
-                        .setClaims(payload)
+                        .addClaims(payload)
                         .signWith(SignatureAlgorithm.HS256, authConfig.getJwtSecret())
                         .compact(),
                 expiredAt.getTime());
@@ -69,6 +67,7 @@ public class JwtProvider {
     public Authentication authenticate(JwtAuthenticationToken authentication) throws AuthenticationException {
         try {
             Claims payload = validateJwtToken(authentication.getCredentials());
+
             // TODO: Authority 내용 정해지고 수정, JWT까서 나오는 권한 JwtAuthenticationToken 에 포함 시키기.
             // Collection<SimpleGrantedAuthority> roles = new ArrayList<>();
             // roles.add(new SimpleGrantedAuthority("ROLE_USER"));
@@ -85,6 +84,7 @@ public class JwtProvider {
             if (loginSessionId != null) {
                 result.setDetails(String.valueOf(loginSessionId));
             }
+
             return result;
         } catch(JwtException e) {
             throw new BadCredentialsException(e.getMessage());

@@ -24,6 +24,6 @@ spring:
 service:
   auth:
     jwt-secret: jwtsecretkey
-    access-expire-minutes: 15
+    access-expire-minutes: 1
     refresh-expire-days: 30
     password-encoding-secret: passwordsecretkey

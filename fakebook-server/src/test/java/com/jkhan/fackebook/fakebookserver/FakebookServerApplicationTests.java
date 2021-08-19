@@ -33,7 +33,6 @@ public class FakebookServerApplicationTests {
         List<LoginSession> sessions = sessionRepository.findAll();
         UserAccount user = sessions.get(0).getUserAccount();
         String email = user.getEmail();
-        System.out.println("");
     }
 
 }

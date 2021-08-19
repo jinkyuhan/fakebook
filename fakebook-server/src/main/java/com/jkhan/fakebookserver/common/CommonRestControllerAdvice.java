@@ -15,8 +15,8 @@ public class CommonRestControllerAdvice {
     @ExceptionHandler(RequestFailException.class)
     public CommonResponseBody<Void> handleRequestFailException(RequestFailException exception) {
         // TODO: 로깅 전략 구성
-        System.out.println(exception.getDevMessage());
-        System.out.println(exception.getMessage());
+        System.err.println(exception.getDevMessage());
+        System.err.println(exception.getMessage());
         return exception.toCommonResponseBody();
     }
 
@@ -24,7 +24,7 @@ public class CommonRestControllerAdvice {
     @ExceptionHandler({Exception.class, RuntimeException.class})
     public CommonResponseBody<Void> handleUnexpectedException(Exception exception) {
         // TODO: 로깅 전략 구성
-        System.out.println(exception.getMessage());
+        System.err.println(exception.getMessage());
         return CommonResponseBody.<Void>builder()
                 .devMessage("서버 문제로 인해 요청 실패")
                 .displayMessage("알 수 없는 오류 입니다.")

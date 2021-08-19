@@ -13,10 +13,7 @@ import com.jkhan.fakebookserver.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/api/auth")
@@ -39,7 +36,6 @@ public class AuthController {
 
     AuthTokenBundleDto newAccessTokenBundle = jwtProvider.issueNewLoginSession(loginAttemptUserAccount);
 
-
     return CommonResponseBody.<AuthTokenBundleDto>builder()
             .result(ApiResult.SUCCESS)
             .data(newAccessTokenBundle)
@@ -47,10 +43,14 @@ public class AuthController {
   }
 
   // logout
+//  @DeleteMapping("/logout")
+//  public CommonResponseBody<Void> logout(Authentication authentication) {
+//
+//  }
 
   // refresh
   @PostMapping("/refresh")
-  public CommonResponseBody<Map<String, AuthTokenDto>> refreshAuth(HttpServletRequest request) {
+  public CommonResponseBody<Map<String, AuthTokenDto>> refreshAuth(Authentication authentication) {
     return CommonResponseBody.<Map<String, AuthTokenDto>>builder().result(ApiResult.SUCCESS).build();
   }
 
