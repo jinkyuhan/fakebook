@@ -35,3 +35,9 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task print() {
+    doLast {
+        println("github push completed")
+    }
+}
