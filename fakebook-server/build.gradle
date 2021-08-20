@@ -38,6 +38,6 @@ test {
 
 task print() {
     doLast {
-        println("github push completed")
+        println("build by jenkins done")
     }
 }
