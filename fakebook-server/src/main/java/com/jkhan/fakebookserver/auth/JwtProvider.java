@@ -3,7 +3,6 @@ package com.jkhan.fakebookserver.auth;
 import java.time.Duration;
 import java.util.*;
 
-import com.jkhan.fakebookserver.config.AuthConfig;
 import com.jkhan.fakebookserver.user.UserAccount;
 
 import io.jsonwebtoken.*;
@@ -18,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JwtProvider {
 
     @Autowired
-    private AuthConfig authConfig;
+    private AuthConfigConstant authConfigConstant;
 
     @Autowired
     private LoginSessionRepository loginSessionRepository;
@@ -40,14 +39,14 @@ public class JwtProvider {
 
     private AuthTokenDto generateAccessToken(UserAccount user) {
         return createToken(
-                Duration.ofMinutes(authConfig.getAccessExpireMinutes()).toMillis(),
+                Duration.ofMinutes(authConfigConstant.getAccessExpireMinutes()).toMillis(),
                 user.getJwtClaims());
     }
 
     private AuthTokenDto generateRefreshToken(UserAccount user, LoginSession loginSession) {
         Map<String, Object> payload = user.getJwtClaims();
         payload.put("loginSessionId", loginSession.getId());
-        return createToken(Duration.ofDays(authConfig.getRefreshExpireDays()).toMillis(), payload);
+        return createToken(Duration.ofDays(authConfigConstant.getRefreshExpireDays()).toMillis(), payload);
     }
 
     private AuthTokenDto createToken(long remainingExpirationMillis, Map<String, Object> payload) {
@@ -59,7 +58,7 @@ public class JwtProvider {
                         .setIssuedAt(now)
                         .setExpiration(expiredAt)
                         .addClaims(payload)
-                        .signWith(SignatureAlgorithm.HS256, authConfig.getJwtSecret())
+                        .signWith(SignatureAlgorithm.HS256, authConfigConstant.getJwtSecret())
                         .compact(),
                 expiredAt.getTime());
     }
@@ -99,7 +98,7 @@ public class JwtProvider {
         }
         tokenToValidate = tokenToValidate.substring("Bearer ".length());
         return Jwts.parser()
-                .setSigningKey(authConfig.getJwtSecret())
+                .setSigningKey(authConfigConstant.getJwtSecret())
                 .parseClaimsJws(tokenToValidate)
                 .getBody();
     }

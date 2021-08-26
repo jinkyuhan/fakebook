@@ -1,4 +1,4 @@
-package com.jkhan.fakebookserver.config;
+package com.jkhan.fakebookserver.auth;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="service.auth")
 @Getter
 @Setter
-public class AuthConfig {
+public class AuthConfigConstant {
     private String jwtSecret;
     private int accessExpireMinutes;
     private int refreshExpireDays;

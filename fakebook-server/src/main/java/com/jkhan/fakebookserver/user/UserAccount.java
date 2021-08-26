@@ -6,10 +6,7 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -27,6 +24,7 @@ public class UserAccount{
   @Column(unique = true)
   private String nickname;
 
+  @Setter
   @Column
   private String name;
 
