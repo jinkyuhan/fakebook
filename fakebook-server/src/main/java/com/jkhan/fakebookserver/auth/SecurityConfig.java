@@ -30,7 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.GET,
                         "/api/users/mail/duplicate",
-                        "/api/users/nickname/duplicate"
+                        "/api/users/nickname/duplicate",
+                        "/pages/**",
+                        "/ws/**",
+                        "/topic/**",
+                        "/app/**"
                 );
     }
 

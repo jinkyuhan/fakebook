@@ -1,5 +1,6 @@
 package com.jkhan.fakebookserver.user;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -36,6 +37,10 @@ public class UserAccount{
 
   @Column
   private int age;
+
+  @Column(name = "created_at")
+  @Temporal(TemporalType.TIMESTAMP)
+  private LocalDateTime createdAt;
 
   public boolean validatePassword(String password) {
 //    return this.password == password;

@@ -19,7 +19,6 @@ public class LoginSession {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id = UUID.randomUUID();
 
-//    @ManyToOne(fetch = FetchType.EAGER)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;

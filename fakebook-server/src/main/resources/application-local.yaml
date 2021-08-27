@@ -1,6 +1,9 @@
 spring:
   application:
     name: fakebook-server
+  web:
+    resources:
+      static-locations: classpath:/static/
   datasource:
     url: jdbc:mariadb://localhost:3306/fakebook
     driver-class-name: org.mariadb.jdbc.Driver
