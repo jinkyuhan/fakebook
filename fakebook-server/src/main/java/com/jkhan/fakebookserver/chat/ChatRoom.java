@@ -1,14 +1,13 @@
 package com.jkhan.fakebookserver.chat;
 
+import java.util.Date;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Table(name = "chat_room")
 @Entity
@@ -22,10 +21,14 @@ public class ChatRoom {
     @Column
     private String name;
 
+    @Column
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
     public ChatRoom() {
         this.id = UUID.randomUUID();
     }
-
     public ChatRoom(String name) {
         this.id = UUID.randomUUID();
         this.name = name;

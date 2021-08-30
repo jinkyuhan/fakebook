@@ -5,8 +5,9 @@ import com.jkhan.fakebookserver.auth.LoginSession;
 import com.jkhan.fakebookserver.auth.LoginSessionRepository;
 import com.jkhan.fakebookserver.auth.AuthConfigConstant;
 
+import com.jkhan.fakebookserver.chat.ChatRoomController;
+import com.jkhan.fakebookserver.chat.ChatRoomUserRepository;
 import com.jkhan.fakebookserver.user.UserAccount;
-import com.jkhan.fakebookserver.user.UserAccountRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +25,7 @@ public class FakebookServerApplicationTests {
     private LoginSessionRepository sessionRepository;
 
     @Autowired
-    private UserAccountRepository userAccountRepository;
+    private ChatRoomController chatRoomController;
 
     @Test
     @Transactional
@@ -35,10 +36,7 @@ public class FakebookServerApplicationTests {
     }
 
     @Test
-    void testRepository() {
-        UserAccount account = userAccountRepository.findByEmail("gkswlsrb95@gmail.com").orElseThrow(() -> new RuntimeException(""));
-        account.setName("testJinkyu");
-        userAccountRepository.save(account);
+    void ChatRoomUserRepositoryTest() {
     }
 
 }
