@@ -1,14 +1,16 @@
 package com.jkhan.fakebookserver.auth;
 
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -19,6 +21,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public SecurityConfig(JwtProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+      return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -33,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/users/nickname/duplicate",
                         "/pages/**",
                         "/ws/**",
-                        "/topic/**",
-                        "/app/**"
+                        "/sub/**",
+                        "/pub/**"
                 );
     }
 

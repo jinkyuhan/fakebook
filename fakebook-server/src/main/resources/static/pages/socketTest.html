@@ -48,6 +48,9 @@
 </div>
 <script>
     var stompClient = null;
+    const headers = {
+        'Authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzAyMjQyMzQsImV4cCI6MTYzMDIyNTEzNCwibmFtZSI6Imppbmt5dWhhbiIsInVzZXJJZCI6ImZhNmZjNjQzLTYxYzYtNDIyMC05MzM1LTI4ZGUzNTI3N2VkNiIsImVtYWlsIjoiZ2tzd2xzcmI5NUBnbWFpbC5jb20ifQ.-nMtvLhvxvK8NVvTQE1gfjXZvfcdyn4mD_yeERGnT7E",
+    }
 
     function setConnected(connected) {
         $("#connect").prop("disabled", connected);
@@ -65,18 +68,19 @@
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
         // SockJS와 stomp client를 통해 연결을 시도.
-        stompClient.connect({}, function (frame) {
+
+        stompClient.connect(headers, function (frame) {
             setConnected(true);
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/public', function (greeting) {
+            stompClient.subscribe('/sub/test', function (greeting) {
                 showGreeting(JSON.parse(greeting.body).content);
-            });
+            }, headers);
         });
     }
 
     function disconnect() {
         if (stompClient !== null) {
-            stompClient.disconnect();
+            stompClient.disconnect(() => {}, headers);
         }
         setConnected(false);
         console.log("Disconnected");
@@ -84,7 +88,7 @@
 
     function sendName() {
         // /app/hello로 JSON 파라미터를 메세지 body로 전송.
-        stompClient.send("/app/hi", {}, JSON.stringify({'name': $("#name").val()}));
+        stompClient.send("/pub/chat_message", headers, JSON.stringify({'content': $("#name").val()}));
     }
 
     function showGreeting(message) {

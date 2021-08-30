@@ -48,15 +48,15 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public CommonResponseBody<UserAccount> myInfo(Authentication authentication) {
+    public CommonResponseBody<UserInfoDto> myInfo(Authentication authentication) {
         String userId = String.valueOf(authentication.getPrincipal());
         UserAccount me = userService.getUserById(userId).orElseThrow(() -> {
             throw new ResourceNotFoundException("요청정보와 일치하는 유저 없음", "정보를 찾을 수 없습니다.");
         });
 
-        return CommonResponseBody.<UserAccount>builder()
+        return CommonResponseBody.<UserInfoDto>builder()
                 .result(ApiResult.SUCCESS)
-                .data(me)
+                .data(UserInfoDto.fromEntity(me))
                 .build();
     }
 }

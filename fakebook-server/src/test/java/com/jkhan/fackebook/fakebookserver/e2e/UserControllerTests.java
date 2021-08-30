@@ -24,10 +24,10 @@ public class UserControllerTests {
         ResponseEntity<CommonResponseBody> responseEntity = testRestTemplate.postForEntity(
                 TestUtils.buildUrl("/api/users"),
                 UserCreationDto.builder()
-                        .nickname("jkhan3")
-                        .name("jinkyuhan3")
+                        .nickname("jkhan2")
+                        .name("jinkyuhan2")
                         .age(27)
-                        .email("gkswlsrb97@gmail.com")
+                        .email("gkswlsrb95@gmail.com")
                         .password("1234")
                         .build(),
                 CommonResponseBody.class

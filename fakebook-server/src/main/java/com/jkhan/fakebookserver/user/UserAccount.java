@@ -1,14 +1,25 @@
 package com.jkhan.fakebookserver.user;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "user_account")
@@ -38,14 +49,15 @@ public class UserAccount{
   @Column
   private int age;
 
-  @Column(name = "created_at")
+  @Column(name = "created_at", updatable = false)
+  @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
-  private LocalDateTime createdAt;
+  private Date createdAt;
 
-  public boolean validatePassword(String password) {
-//    return this.password == password;
-    return true;
-  }
+  @Column(name = "updated_at")
+  @UpdateTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date updatedAt;
 
   public Map<String, Object> getJwtClaims() {
     Map<String, Object> claims = new HashMap<>();
@@ -53,6 +65,10 @@ public class UserAccount{
     claims.put("name", this.name);
     claims.put("email", this.email);
     return claims;
+  }
+
+  public void maskPassword() {
+    this.password = "-";
   }
 
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +26,7 @@ public class LoginSession {
 
     @Column
     @Setter
-    private long expiredAt;
+    private Date expiredAt;
 
     public LoginSession(UserAccount user) {
         this.userAccount = user;

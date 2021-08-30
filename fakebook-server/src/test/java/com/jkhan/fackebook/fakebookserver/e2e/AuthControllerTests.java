@@ -4,6 +4,7 @@ import com.jkhan.fackebook.fakebookserver.TestUtils;
 import com.jkhan.fakebookserver.FakebookServerApplication;
 import com.jkhan.fakebookserver.auth.LoginDto;
 import com.jkhan.fakebookserver.common.CommonResponseBody;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class AuthControllerTests {
                 new LoginDto("gkswlsrb97@gmail.com", "1234"),
                 CommonResponseBody.class
         );
+        
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals("SUCCESS", response.getBody().getResult());
     }

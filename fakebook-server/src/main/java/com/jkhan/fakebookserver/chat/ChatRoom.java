@@ -1,13 +1,14 @@
 package com.jkhan.fakebookserver.chat;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.UUID;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Table(name = "chat_room")
 @Entity

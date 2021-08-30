@@ -31,7 +31,7 @@ public class JwtProvider {
         AuthTokenDto newRefreshToken = generateRefreshToken(user, newLoginSession);
         newTokenBundle.setRefreshToken(newRefreshToken);
 
-        newLoginSession.setExpiredAt(newRefreshToken.getExpiredAt());
+        newLoginSession.setExpiredAt(new Date(newRefreshToken.getExpiredAt()));
         loginSessionRepository.save(newLoginSession);
 
         return newTokenBundle;

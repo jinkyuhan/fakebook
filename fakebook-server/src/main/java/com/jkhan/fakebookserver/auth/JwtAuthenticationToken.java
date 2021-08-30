@@ -1,11 +1,6 @@
 package com.jkhan.fakebookserver.auth;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
