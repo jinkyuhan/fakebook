@@ -1,5 +1,7 @@
 package com.jkhan.fakebookserver.chat;
 
+import com.jkhan.fakebookserver.chat.entity.ChatRoom;
+import com.jkhan.fakebookserver.chat.entity.ChatRoomUser;
 import com.jkhan.fakebookserver.common.PageCursorVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

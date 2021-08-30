@@ -1,10 +1,13 @@
-package com.jkhan.fakebookserver.chat;
+package com.jkhan.fakebookserver.chat.controller;
 
 
+import com.jkhan.fakebookserver.chat.ChatRoomUserRepository;
+import com.jkhan.fakebookserver.chat.ChatService;
+import com.jkhan.fakebookserver.chat.dto.ChatRoomListDto;
 import com.jkhan.fakebookserver.common.PageCursorVo;
 import com.jkhan.fakebookserver.common.CommonResponseBody;
 import com.jkhan.fakebookserver.common.exception.InvalidInputException;
-import com.jkhan.fakebookserver.constant.ApiResult;
+import com.jkhan.fakebookserver.common.constant.ApiResult;
 import com.jkhan.fakebookserver.user.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,35 +35,34 @@ public class ChatRoomController {
     private ChatService chatService;
 
     @GetMapping
-    public CommonResponseBody<Map<String, List<ChatRoom>>> getChatRoomList(
+    public CommonResponseBody<ChatRoomListDto> getChatRoomList(
             @RequestParam(name = "idCursor", required = false) String idCursor,
             @RequestParam(name = "dateCursor", required = false) Long dateCursor,
             @RequestParam(name = "limit", required = false) Integer limit,
             Authentication authentication
     ) {
         UUID userId = UUID.fromString(String.valueOf(authentication.getPrincipal()));
-        Map<String, List<ChatRoom>> responseData = new HashMap<>();
-        List<ChatRoom> chatroomsOfUser;
+        ChatRoomListDto responseData = new ChatRoomListDto();
 
         if (limit == null) {
             // no page
-            chatroomsOfUser = chatService.getAllChatRoomsOfUser(userId);
+            responseData.setChatrooms(chatService.getAllChatRoomsOfUser(userId));
         } else {
             // page
             if (idCursor == null && dateCursor == null) {
                 // first page
-                chatroomsOfUser = chatService.getFirstPageChatRoomsOfUser(userId, limit);
+                responseData.setChatrooms(chatService.getFirstPageChatRoomsOfUser(userId, limit));
             } else if (idCursor != null && dateCursor != null) {
-                chatroomsOfUser = chatService.getChatRoomsOfUserWithCursor(userId, limit, PageCursorVo.of(UUID.fromString(idCursor), dateCursor));
+                responseData.setChatrooms(chatService.getChatRoomsOfUserWithCursor(
+                        userId,
+                        limit,
+                        PageCursorVo.of(UUID.fromString(idCursor), dateCursor)));
             } else {
                 throw new InvalidInputException("All the page request require params [idCursor, dateCursor]", "");
             }
         }
 
-
-
-        responseData.put("chatrooms", chatroomsOfUser);
-        return CommonResponseBody.<Map<String, List<ChatRoom>>>builder()
+        return CommonResponseBody.<ChatRoomListDto>builder()
                 .data(responseData)
                 .result(ApiResult.SUCCESS)
                 .build();

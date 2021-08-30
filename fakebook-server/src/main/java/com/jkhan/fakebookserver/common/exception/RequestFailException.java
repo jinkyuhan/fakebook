@@ -2,7 +2,7 @@ package com.jkhan.fakebookserver.common.exception;
 
 import com.jkhan.fakebookserver.common.CommonResponseBody;
 
-import com.jkhan.fakebookserver.constant.ApiResult;
+import com.jkhan.fakebookserver.common.constant.ApiResult;
 import lombok.Getter;
 
 @Getter

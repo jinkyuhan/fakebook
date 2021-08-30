@@ -1,6 +1,8 @@
-package com.jkhan.fakebookserver.auth;
+package com.jkhan.fakebookserver.auth.config;
 
 
+import com.jkhan.fakebookserver.auth.jwt.JwtAuthenticationFilter;
+import com.jkhan.fakebookserver.auth.jwt.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

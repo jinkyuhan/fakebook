@@ -1,5 +1,6 @@
-package com.jkhan.fakebookserver.chat;
+package com.jkhan.fakebookserver.chat.config;
 
+import com.jkhan.fakebookserver.chat.security.StompHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;

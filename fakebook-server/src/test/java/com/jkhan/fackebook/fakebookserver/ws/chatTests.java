@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.jkhan.fakebookserver.FakebookServerApplication;
-import com.jkhan.fakebookserver.chat.ChatMessage;
+import com.jkhan.fakebookserver.chat.entity.ChatMessage;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

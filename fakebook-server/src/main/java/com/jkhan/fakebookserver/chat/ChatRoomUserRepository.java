@@ -1,5 +1,7 @@
 package com.jkhan.fakebookserver.chat;
 
+import com.jkhan.fakebookserver.chat.entity.ChatRoomUser;
+import com.jkhan.fakebookserver.chat.entity.ChatRoomUserId;
 import com.jkhan.fakebookserver.common.PageCursorVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

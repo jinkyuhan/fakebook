@@ -1,6 +1,6 @@
 package com.jkhan.fakebookserver.common;
 
-import com.jkhan.fakebookserver.constant.ApiResult;
+import com.jkhan.fakebookserver.common.constant.ApiResult;
 
 import lombok.Builder;
 import lombok.Getter;

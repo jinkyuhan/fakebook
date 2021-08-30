@@ -1,4 +1,4 @@
-package com.jkhan.fakebookserver.chat;
+package com.jkhan.fakebookserver.chat.entity;
 
 import java.util.Date;
 import java.util.UUID;

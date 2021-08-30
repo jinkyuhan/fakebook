@@ -2,7 +2,7 @@ package com.jkhan.fackebook.fakebookserver.e2e;
 
 import com.jkhan.fackebook.fakebookserver.TestUtils;
 import com.jkhan.fakebookserver.FakebookServerApplication;
-import com.jkhan.fakebookserver.auth.LoginDto;
+import com.jkhan.fakebookserver.auth.dto.LoginDto;
 import com.jkhan.fakebookserver.common.CommonResponseBody;
 
 import org.junit.jupiter.api.Assertions;

@@ -1,4 +1,4 @@
-package com.jkhan.fakebookserver.constant;
+package com.jkhan.fakebookserver.common.constant;
 
 import lombok.Getter;
 

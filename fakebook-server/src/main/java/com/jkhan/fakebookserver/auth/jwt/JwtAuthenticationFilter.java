@@ -1,4 +1,4 @@
-package com.jkhan.fakebookserver.auth;
+package com.jkhan.fakebookserver.auth.jwt;
 
 import java.io.IOException;
 

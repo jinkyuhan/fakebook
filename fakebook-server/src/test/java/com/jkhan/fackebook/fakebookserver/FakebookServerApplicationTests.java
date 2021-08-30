@@ -5,8 +5,7 @@ import com.jkhan.fakebookserver.auth.LoginSession;
 import com.jkhan.fakebookserver.auth.LoginSessionRepository;
 import com.jkhan.fakebookserver.auth.AuthConfigConstant;
 
-import com.jkhan.fakebookserver.chat.ChatRoomController;
-import com.jkhan.fakebookserver.chat.ChatRoomUserRepository;
+import com.jkhan.fakebookserver.chat.controller.ChatRoomController;
 import com.jkhan.fakebookserver.user.UserAccount;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

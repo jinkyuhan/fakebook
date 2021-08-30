@@ -1,5 +1,6 @@
-package com.jkhan.fakebookserver.chat;
+package com.jkhan.fakebookserver.chat.dto;
 
+import com.jkhan.fakebookserver.chat.entity.ChatRoom;
 import lombok.Setter;
 
 import java.util.List;

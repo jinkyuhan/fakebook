@@ -1,7 +1,7 @@
-package com.jkhan.fakebookserver.chat;
+package com.jkhan.fakebookserver.chat.security;
 
-import com.jkhan.fakebookserver.auth.JwtAuthenticationToken;
-import com.jkhan.fakebookserver.auth.JwtProvider;
+import com.jkhan.fakebookserver.auth.jwt.JwtAuthenticationToken;
+import com.jkhan.fakebookserver.auth.jwt.JwtProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -9,6 +9,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,5 +29,4 @@ public class StompHandler implements ChannelInterceptor {
         Authentication authenticatedToken = jwtProvider.authenticate(unauthenticatedToken);
         return message;
     }
-
 }

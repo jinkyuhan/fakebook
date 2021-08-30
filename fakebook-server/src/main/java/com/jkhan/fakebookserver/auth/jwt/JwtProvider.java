@@ -1,8 +1,13 @@
-package com.jkhan.fakebookserver.auth;
+package com.jkhan.fakebookserver.auth.jwt;
 
 import java.time.Duration;
 import java.util.*;
 
+import com.jkhan.fakebookserver.auth.AuthConfigConstant;
+import com.jkhan.fakebookserver.auth.LoginSession;
+import com.jkhan.fakebookserver.auth.LoginSessionRepository;
+import com.jkhan.fakebookserver.auth.dto.AuthTokenBundleDto;
+import com.jkhan.fakebookserver.auth.dto.AuthTokenDto;
 import com.jkhan.fakebookserver.user.UserAccount;
 
 import io.jsonwebtoken.*;

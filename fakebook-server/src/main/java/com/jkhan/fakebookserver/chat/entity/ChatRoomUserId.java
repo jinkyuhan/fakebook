@@ -1,4 +1,4 @@
-package com.jkhan.fakebookserver.chat;
+package com.jkhan.fakebookserver.chat.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

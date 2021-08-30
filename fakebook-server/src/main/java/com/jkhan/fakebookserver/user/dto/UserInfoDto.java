@@ -1,6 +1,6 @@
-package com.jkhan.fakebookserver.user;
+package com.jkhan.fakebookserver.user.dto;
 
-import lombok.AllArgsConstructor;
+import com.jkhan.fakebookserver.user.UserAccount;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.jkhan.fakebookserver.user;
+package com.jkhan.fakebookserver.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

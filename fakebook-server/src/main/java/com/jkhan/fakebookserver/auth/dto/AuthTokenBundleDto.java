@@ -1,4 +1,4 @@
-package com.jkhan.fakebookserver.auth;
+package com.jkhan.fakebookserver.auth.dto;
 
 import lombok.NoArgsConstructor;
 import lombok.Getter;

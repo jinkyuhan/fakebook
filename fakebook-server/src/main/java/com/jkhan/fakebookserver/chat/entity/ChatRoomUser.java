@@ -1,4 +1,4 @@
-package com.jkhan.fakebookserver.chat;
+package com.jkhan.fakebookserver.chat.entity;
 
 import com.jkhan.fakebookserver.user.UserAccount;
 import lombok.Getter;

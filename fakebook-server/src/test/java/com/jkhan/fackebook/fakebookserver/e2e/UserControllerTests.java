@@ -3,7 +3,7 @@ package com.jkhan.fackebook.fakebookserver.e2e;
 import com.jkhan.fackebook.fakebookserver.TestUtils;
 import com.jkhan.fakebookserver.FakebookServerApplication;
 import com.jkhan.fakebookserver.common.CommonResponseBody;
-import com.jkhan.fakebookserver.user.UserCreationDto;
+import com.jkhan.fakebookserver.user.dto.UserCreationDto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
