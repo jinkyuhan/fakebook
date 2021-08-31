@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.*;
 
 import com.jkhan.fakebookserver.auth.AuthConfigConstant;
+import com.jkhan.fakebookserver.auth.AuthService;
 import com.jkhan.fakebookserver.auth.LoginSession;
 import com.jkhan.fakebookserver.auth.LoginSessionRepository;
 import com.jkhan.fakebookserver.auth.dto.AuthTokenBundleDto;
@@ -27,28 +28,13 @@ public class JwtProvider {
     @Autowired
     private LoginSessionRepository loginSessionRepository;
 
-    @Transactional
-    public AuthTokenBundleDto issueNewLoginSession(UserAccount user) {
-        AuthTokenBundleDto newTokenBundle = new AuthTokenBundleDto();
-        newTokenBundle.setAccessToken(generateAccessToken(user));
-
-        LoginSession newLoginSession = new LoginSession(user);
-        AuthTokenDto newRefreshToken = generateRefreshToken(user, newLoginSession);
-        newTokenBundle.setRefreshToken(newRefreshToken);
-
-        newLoginSession.setExpiredAt(new Date(newRefreshToken.getExpiredAt()));
-        loginSessionRepository.save(newLoginSession);
-
-        return newTokenBundle;
-    }
-
-    private AuthTokenDto generateAccessToken(UserAccount user) {
+    public AuthTokenDto generateAccessToken(UserAccount user) {
         return createToken(
                 Duration.ofMinutes(authConfigConstant.getAccessExpireMinutes()).toMillis(),
                 user.getJwtClaims());
     }
 
-    private AuthTokenDto generateRefreshToken(UserAccount user, LoginSession loginSession) {
+    public AuthTokenDto generateRefreshToken(UserAccount user, LoginSession loginSession) {
         Map<String, Object> payload = user.getJwtClaims();
         payload.put("loginSessionId", loginSession.getId());
         return createToken(Duration.ofDays(authConfigConstant.getRefreshExpireDays()).toMillis(), payload);
@@ -86,7 +72,9 @@ public class JwtProvider {
 
             Object loginSessionId = payload.get("loginSessionId");
             if (loginSessionId != null) {
-                result.setDetails(String.valueOf(loginSessionId));
+                LoginSession loginSession = loginSessionRepository.findById(UUID.fromString(String.valueOf(loginSessionId)))
+                        .orElseThrow(() -> new MalformedJwtException("loginSessionId is invalid")) ;
+                result.setDetails(loginSession);
             }
 
             return result;

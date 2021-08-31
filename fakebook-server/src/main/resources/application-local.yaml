@@ -16,8 +16,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
     hibernate:
       ddl-auto: update
+
   devtools:
     livereload:
       enabled: true
