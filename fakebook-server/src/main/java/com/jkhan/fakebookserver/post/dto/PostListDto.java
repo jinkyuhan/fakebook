@@ -1,13 +1,13 @@
 package com.jkhan.fakebookserver.post.dto;
 
-import com.jkhan.fakebookserver.post.Post;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Setter
 @Getter
-public class PostListDto {
+public class PostListDto implements Serializable {
     private List<PostDto> posts;
 }

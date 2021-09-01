@@ -8,6 +8,7 @@ import com.jkhan.fakebookserver.post.dto.NewPostDto;
 import com.jkhan.fakebookserver.post.dto.PostDto;
 import com.jkhan.fakebookserver.post.dto.PostListDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +59,7 @@ public class PostController {
     }
 
     @GetMapping("/mine")
+    @Cacheable(value = "MY_POST", key = "#authentication.principal")
     public CommonResponseBody<PostListDto> getMyPosts(
             Authentication authentication,
             @RequestParam(name = "idCursor", required = false) String idCursor,

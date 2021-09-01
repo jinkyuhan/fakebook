@@ -1,13 +1,9 @@
 package com.jkhan.fakebookserver.auth;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import com.jkhan.fakebookserver.auth.dto.AuthTokenBundleDto;
-import com.jkhan.fakebookserver.auth.dto.AuthTokenDto;
 import com.jkhan.fakebookserver.auth.dto.LoginDto;
-import com.jkhan.fakebookserver.auth.jwt.JwtProvider;
 import com.jkhan.fakebookserver.common.CommonResponseBody;
 import com.jkhan.fakebookserver.common.exception.InvalidInputException;
 import com.jkhan.fakebookserver.common.constant.ApiResult;
@@ -25,9 +21,6 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private JwtProvider jwtProvider;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

@@ -12,6 +12,13 @@ services:
       MARIADB_PASSWORD: admin
     volumes:
       - fakebook_data:/var/lib/mysql
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
 
 volumes:
   fakebook_data:
+  redis_data:

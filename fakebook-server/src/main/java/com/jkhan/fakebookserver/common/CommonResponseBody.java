@@ -6,10 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Builder
 @Setter
 @Getter
-public class CommonResponseBody<T> {
+public class CommonResponseBody<T> implements Serializable {
 
   private String result;
   @Builder.Default
