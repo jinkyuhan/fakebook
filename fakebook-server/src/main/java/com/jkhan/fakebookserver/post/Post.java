@@ -34,7 +34,7 @@ public class Post {
     @Column
     private Date updatedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
     private UserAccount writer;
 

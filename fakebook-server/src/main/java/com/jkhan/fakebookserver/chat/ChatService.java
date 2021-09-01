@@ -23,7 +23,7 @@ public class ChatService {
                 .map(ChatRoomUser::getChatRoom)
                 .collect(Collectors.toList());
     }
-    public List<ChatRoom> getFirstPageChatRoomsOfUser(UUID userId, int limit) {
+    public List<ChatRoom> getFirstPageOfChatRoomsOfUser(UUID userId, int limit) {
         return chatRoomUserRepository.findByUserId(userId, PageRequest.of(0, limit)).stream()
                 .map(ChatRoomUser::getChatRoom)
                 .collect(Collectors.toList());

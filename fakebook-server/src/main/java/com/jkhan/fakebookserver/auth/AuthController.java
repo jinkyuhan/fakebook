@@ -46,6 +46,7 @@ public class AuthController {
 
         AuthTokenBundleDto newAccessTokenBundle = authService.issueNewLoginSession(loginAttemptUserAccount);
 
+        System.out.println("LOGIN_DONE");
         return CommonResponseBody.<AuthTokenBundleDto>builder()
                 .result(ApiResult.SUCCESS)
                 .data(newAccessTokenBundle)
@@ -58,6 +59,7 @@ public class AuthController {
         LoginSession targetSession = (LoginSession) authentication.getDetails();
         AuthTokenBundleDto freshTokenBundle = authService.refreshLoginSession(targetSession);
 
+        System.out.println("REFRESH_DONE");
         return CommonResponseBody.<AuthTokenBundleDto>builder()
                 .data(freshTokenBundle)
                 .result(ApiResult.SUCCESS)
