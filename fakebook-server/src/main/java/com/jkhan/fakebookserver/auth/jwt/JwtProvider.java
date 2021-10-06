@@ -1,23 +1,28 @@
 package com.jkhan.fakebookserver.auth.jwt;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
+import java.util.UUID;
 
 import com.jkhan.fakebookserver.auth.AuthConfigConstant;
-import com.jkhan.fakebookserver.auth.AuthService;
 import com.jkhan.fakebookserver.auth.LoginSession;
 import com.jkhan.fakebookserver.auth.LoginSessionRepository;
-import com.jkhan.fakebookserver.auth.dto.AuthTokenBundleDto;
 import com.jkhan.fakebookserver.auth.dto.AuthTokenDto;
 import com.jkhan.fakebookserver.user.UserAccount;
 
-import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtProvider {
@@ -65,6 +70,7 @@ public class JwtProvider {
             if (userId == null) {
                 throw new MalformedJwtException("Payload include invalid claims");
             }
+
             JwtAuthenticationToken result = new JwtAuthenticationToken(
                     authentication.getCredentials(),
                     String.valueOf(userId)

@@ -3,6 +3,11 @@ package com.jkhan.fakebookserver.auth.config;
 
 import com.jkhan.fakebookserver.auth.jwt.JwtAuthenticationFilter;
 import com.jkhan.fakebookserver.auth.jwt.JwtProvider;
+import com.jkhan.fakebookserver.auth.oauth2.CustomOAuth2UserService;
+import com.jkhan.fakebookserver.auth.oauth2.OAuth2AuthenticationFailureHandler;
+import com.jkhan.fakebookserver.auth.oauth2.OAuth2AuthenticationSuccessHandler;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,10 +21,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtProvider jwtProvider;
+
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+
+    @Autowired
+    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
     public SecurityConfig(JwtProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
@@ -43,7 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/pages/**",
                         "/ws/**",
                         "/sub/**",
-                        "/pub/**"
+                        "/pub/**",
+                        "/oauth2/authorization/**"
                 );
     }
 
@@ -53,5 +68,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+        http.oauth2Login()
+            .authorizationEndpoint().baseUri("/oauth2/authorize")
+            .and()
+            .userInfoEndpoint().userService(customOAuth2UserService)
+            .and()
+            .successHandler(oAuth2AuthenticationSuccessHandler)
+            .failureHandler(oAuth2AuthenticationFailureHandler);
     }
 }

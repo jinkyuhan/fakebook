@@ -1,16 +1,16 @@
 package com.jkhan.fakebookserver.auth;
 
+import java.util.Date;
+import java.util.UUID;
+
 import com.jkhan.fakebookserver.auth.dto.AuthTokenBundleDto;
 import com.jkhan.fakebookserver.auth.dto.AuthTokenDto;
 import com.jkhan.fakebookserver.auth.jwt.JwtProvider;
 import com.jkhan.fakebookserver.user.UserAccount;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AuthService {

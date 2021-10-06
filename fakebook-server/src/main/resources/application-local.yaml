@@ -27,6 +27,23 @@ spring:
       enabled: true
     restart:
       enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 773eb25fa6c74fa7af41fe13441a7db1
+            client-secret: SqlJ9Fo7WXwrghJj2ikPygdHrIjabQjJ
+            redirect-uri: https://8d4f-211-54-164-234.ngrok.io
+            authorization-grant-type: authorization_code
+            client-name: kakao
+            client-authentication-method: POST
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me HTTP/1.1
+            user-name-attributes: id
 
 service:
   auth:

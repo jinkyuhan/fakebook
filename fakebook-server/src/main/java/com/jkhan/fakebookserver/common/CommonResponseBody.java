@@ -1,12 +1,12 @@
 package com.jkhan.fakebookserver.common;
 
+import java.io.Serializable;
+
 import com.jkhan.fakebookserver.common.constant.ApiResult;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 @Builder
 @Setter

@@ -1,6 +1,9 @@
 package com.jkhan.fakebookserver.auth.jwt;
 
+import java.util.Arrays;
+
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
@@ -12,10 +15,11 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
         super(null);
         this.credentials = bearerToken;
         this.principal = null;
+        this.setAuthenticated(false);
     }
 
     public JwtAuthenticationToken(String bearerToken, String userId) {
-        super(null);
+        super(Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
         this.credentials = bearerToken;
         this.principal = userId;
         this.setAuthenticated(true);
